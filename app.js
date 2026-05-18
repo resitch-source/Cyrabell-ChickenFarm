@@ -655,6 +655,10 @@ function escapeHtml(s) {
 
 // ---------- INIT ----------
 function init() {
+  // Safety: ensure modal & toast start hidden regardless of any cached state
+  $('#modal-backdrop').hidden = true;
+  $('#toast').hidden = true;
+
   $('#login-form').onsubmit = handleLogin;
   $('#logout-btn').onclick = logout;
   $('#modal-close').onclick = closeModal;
