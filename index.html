@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<meta name="theme-color" content="#3a4a3c" />
+<title>Cyrabell — Chicken Management Systems</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23c2613a'/%3E%3Ctext x='50' y='68' font-size='60' text-anchor='middle' fill='%23fef6e4'%3E🐓%3C/text%3E%3C/svg%3E" />
+<link rel="manifest" href="manifest.json" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- =========================== LOGIN VIEW =========================== -->
+<div id="login-view" class="login-shell">
+  <div class="login-art">
+    <div class="login-art-inner">
+      <div class="brand-mark">
+        <svg viewBox="0 0 64 64" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 44c0-10 6-18 14-18s14 8 14 18"/>
+          <circle cx="40" cy="20" r="6"/>
+          <path d="M42 14l4-4M38 14l-2-4"/>
+          <path d="M44 22h6"/>
+          <path d="M20 44h28v8H20z"/>
+        </svg>
+        <span>CYRABELL</span>
+      </div>
+      <h1 class="hero-line">A calmer way<br>to run your<br><em>poultry farm.</em></h1>
+      <p class="hero-sub">Track every egg, every gram, every peso. Powered by Google Sheets — owned by you, hosted free.</p>
+      <ul class="hero-features">
+        <li><span>◉</span> Daily egg & growth logging</li>
+        <li><span>◉</span> Feed, health, mortality records</li>
+        <li><span>◉</span> AI farm advisor</li>
+        <li><span>◉</span> Works offline, installs to phone</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="login-form-wrap">
+    <form id="login-form" class="login-form">
+      <h2>Welcome back</h2>
+      <p class="muted">Sign in to your farm dashboard</p>
+      <label>
+        <span>Username</span>
+        <input type="text" id="login-username" value="admin" required autocomplete="username" />
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password" />
+      </label>
+      <button type="submit" class="btn btn-primary btn-block" id="login-btn">Enter the coop</button>
+      <p id="login-error" class="error-msg" hidden></p>
+      <p class="form-footer">First time? Default is <code>admin / cyrabell2025</code>. Change it after signing in.</p>
+    </form>
+  </div>
+</div>
+
+<!-- =========================== APP VIEW =========================== -->
+<div id="app-view" class="app-shell" hidden>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <svg viewBox="0 0 64 64" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 44c0-10 6-18 14-18s14 8 14 18"/>
+        <circle cx="40" cy="20" r="6"/>
+        <path d="M42 14l4-4M38 14l-2-4"/>
+        <path d="M44 22h6"/>
+      </svg>
+      <div>
+        <strong>Cyrabell</strong>
+        <small>Farm OS</small>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-view="dashboard"><span class="nav-ico">◐</span>Dashboard</button>
+      <button class="nav-item" data-view="flocks"><span class="nav-ico">◑</span>Flocks</button>
+      <button class="nav-item" data-view="eggs"><span class="nav-ico">○</span>Eggs</button>
+      <button class="nav-item" data-view="growth"><span class="nav-ico">◓</span>Growth</button>
+      <button class="nav-item" data-view="feed"><span class="nav-ico">◔</span>Feed</button>
+      <button class="nav-item" data-view="health"><span class="nav-ico">◒</span>Health</button>
+      <button class="nav-item" data-view="mortality"><span class="nav-ico">◕</span>Mortality</button>
+      <button class="nav-item" data-view="sales"><span class="nav-ico">◉</span>Sales</button>
+      <button class="nav-item" data-view="ai"><span class="nav-ico">✦</span>AI Advisor</button>
+      <button class="nav-item" data-view="settings"><span class="nav-ico">◎</span>Settings</button>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">A</div>
+        <div>
+          <strong id="user-name">admin</strong>
+          <small>Farm manager</small>
+        </div>
+      </div>
+      <button class="btn-ghost" id="logout-btn">Sign out</button>
+    </div>
+  </aside>
+
+  <!-- Mobile top bar -->
+  <header class="mobile-top">
+    <button class="icon-btn" id="menu-toggle">☰</button>
+    <strong id="mobile-title">Dashboard</strong>
+    <button class="icon-btn" id="sync-btn" title="Refresh">↻</button>
+  </header>
+
+  <main class="main-content" id="main-content">
+    <!-- views injected here -->
+  </main>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <div class="modal" id="modal">
+      <header>
+        <h3 id="modal-title">Title</h3>
+        <button class="icon-btn" id="modal-close">×</button>
+      </header>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" hidden></div>
+
+</div>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
